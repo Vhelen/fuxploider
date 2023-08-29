@@ -31,8 +31,12 @@ coloredlogs.install(
 logging.getLogger("requests").setLevel(logging.ERROR)
 
 #################### TEMPLATES DEFINITION HERE ######################
-templatesFolder = "payloads"
-with open("templates.json", "r", encoding='utf-8') as fd:
+# Vhelen : Edit to work with symlink
+base_dir = os.path.dirname(os.path.realpath(__file__))
+
+templatesFolder = f"{base_dir}/payloads"
+
+with open(f"{base_dir}/templates.json", "r", encoding='utf-8') as fd:
     templates = json.loads(fd.read())
 
 #######################################################################
@@ -94,7 +98,7 @@ args.nbThreads = args.nbThreads[0]
 args.userAgent = args.userAgent[0]
 
 if args.randomUserAgent:
-    with open("user-agents.txt","r") as fd:
+    with open(f"{base_dir}/user-agents.txt","r") as fd:
         nb = 0
         for l in fd:
             nb += 1
@@ -289,7 +293,7 @@ else:
 entryPoints = []
 up.stopThreads = True
 
-with open("techniques.json", "r") as rawTechniques:
+with open(f"{base_dir}/techniques.json", "r") as rawTechniques:
     techniques = json.loads(rawTechniques.read())
 logger.info("### Starting code execution detection "
             "(messing with file extensions and mime types...)")

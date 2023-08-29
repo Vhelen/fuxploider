@@ -123,8 +123,12 @@ def getResource(url):
 
 def loadExtensions(loadFrom, filepath="mimeTypes.advanced"):
     ext = []
+
+    # Vhelen : Edit to work with symlink
+    base_dir = os.path.dirname(os.path.realpath(__file__))
+    
     if loadFrom == "file":
-        with open(filepath, "r") as fd:
+        with open(f"{base_dir}/{filepath}", "r") as fd:
             ext = []
             for e in fd:
                 e = e[:-1]
@@ -134,7 +138,7 @@ def loadExtensions(loadFrom, filepath="mimeTypes.advanced"):
                     ext.append((z, mime))
     elif isinstance(loadFrom, list):
         for askedExt in loadFrom:
-            with open(filepath, "r") as fd:
+            with open(f"{base_dir}/{filepath}", "r") as fd:
                 for e in fd:
                     e = e[:-1]
                     ligne = e.split(" ")
